@@ -1,8 +1,8 @@
 /**
  * SORTING NODES WITHIN A CONTAINER
  * Please, make sure to read the following files in the exercises-info folder before you start
- * * "02 SortingNode.md" 
-*/
+ * * "02 SortingNode.md"
+ */
 
 /**
  * @task
@@ -10,10 +10,9 @@
  * Store them in the allItems variable
  * Example: const allItems = <Your code>;
  */
-
-// Your code goes here...
-
-
+const parentContainer = document.getElementById("main");
+const allItems = document.querySelectorAll(".item");
+const newArr = Array.from(allItems);
 
 /**
  * @task
@@ -22,9 +21,7 @@
  * Example: const sortBtn = <Your code>;
  */
 
-// Your code goes here...
-
-
+const sortBtn = document.querySelectorAll(".sortBtn");
 
 /**
  * @task
@@ -37,9 +34,29 @@
  * Example: sortData('asc') => <a-z order of items in the main container>
  */
 
-// Your code goes here...
+const sortCB = (a, b) => {
+  if (a.id < b.id) return 1;
+  else if (a.id > b.id) return -1;
+  else return 0;
+};
 
+const sortBC = (a, b) => {
+  if (a.id > b.id) return 1;
+  else if (a.id < b.id) return -1;
+  else return 0;
+};
 
+function sortData(direction) {
+  if (direction === "asc") {
+    newArr.sort(sortBC);
+  } else if (direction === "desc") {
+    newArr.sort(sortCB);
+  }
+  console.log(newArr);
+  newArr.forEach((item) => {
+    parentContainer.append(item);
+  });
+}
 
 /**
  * @task
@@ -50,5 +67,6 @@
  */
 
 // Your code goes here...
-
-
+sortBtn.forEach((btn) =>
+  btn.addEventListener("click", () => sortData(btn.dataset.sortdir))
+);

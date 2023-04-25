@@ -37,4 +37,48 @@
  * * add the event listener to the container, pass the callback.
  */
 
+if (localStorage.getItem("favorites") === null) {
+  localStorage.setItem("favorites", "");  
+} else { 
+  const storageArr = localStorage.getItem("favorites").split(",");
+  const cardArr = Array.from(document.querySelectorAll(".card"));
+  console.log(storageArr, cardArr)
+  cardArr.forEach((card)=>{
+    if(storageArr.includes(card.id)){
+      card.style.backgroundColor = "red"
+    }
+  })
+}
+
+
+
+const callbackFn = (e) => {
+  let storageData = localStorage.getItem("favorites");
+  const storageArr = localStorage.getItem("favorites").split(",");
+  const item = e.target;
+  console.log(item.dataset.fav === true);
+  if (Array.from(item.classList).includes("card")) {
+    if (item.style.backgroundColor === "white" || !item.style.backgroundColor) {
+      const newFav = item.id;
+      if (!storageData) {
+        localStorage.setItem("favorites", item.id);
+      } else {
+        storageData += `,${newFav}`;
+        localStorage.setItem("favorites", storageData);
+      }
+      item.style.backgroundColor = "red";
+      item.dataset.fav = true
+    } else {
+      const itemToDelete = item.id;
+      storageArr.splice(storageArr.indexOf(itemToDelete), 1).join(",");
+      localStorage.setItem("favorites", storageArr);
+      item.style.backgroundColor = "white";
+    }
+  }
+};
+
 // Your code goes here...
+const container = document.querySelector(".cardsContainer");
+
+// add the eventListener to the container Node
+container.addEventListener("click", (e) => callbackFn(e));

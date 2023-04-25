@@ -2,7 +2,7 @@
  * SORTING NODES WITHIN A CONTAINER
  * Please, make sure to read the following files in the exercises-info folder before you start
  * * 01 SelectNodes.md
-*/
+ */
 
 /**
  * @task
@@ -12,8 +12,7 @@
  */
 
 // Your code goes here...
-
-
+const allItems = document.querySelectorAll(".item");
 
 /**
  * @task
@@ -23,8 +22,7 @@
  * */
 
 // Your code goes here
-
-
+const main = document.getElementById("main");
 
 /**
  * @task
@@ -34,8 +32,8 @@
  */
 
 // Your code goes here
-
-
+const favs = document.getElementById("favs");
+favs.classList.add("container");
 
 /**
  * @task
@@ -47,8 +45,22 @@
  */
 
 // Your code goes here
-
-
+function updateCollections(id, direction) {
+  const itemToBeMoved = document.getElementById(id);
+  const heart = itemToBeMoved.firstChild.nextSibling;
+  console.log(id, direction, itemToBeMoved, heart, itemToBeMoved.parentElement.id)
+  if (direction === "toFavs") {
+    heart.classList.remove("fa-heart-circle-plus")
+    heart.classList.add("fa-heart-crack")
+    favs.appendChild(itemToBeMoved);
+  } else if (direction === "toMain") {
+    heart.classList.add("fa-heart-circle-plus")
+    heart.classList.remove("fa-heart-crack")
+    main.appendChild(itemToBeMoved);
+  } else {
+    console.log("something wonky " + id + " " + direction);
+  }
+}
 
 /**
  * @task
@@ -64,6 +76,18 @@
  * * Make the updateCollections function call, assign the item Id and the direction defined above
  */
 
+function getDirection(id){
+  const item = document.getElementById(id);
+  let itemDirection =
+    item.parentElement.id === "main"
+      ? "toFavs"
+      : item.parentElement.id === "favs"
+      ? "toMain"
+      : "neither";
+  updateCollections(id, itemDirection)
+}
+
 // Your code goes here...
-
-
+allItems.forEach((item) => {
+  item.addEventListener("click", () => getDirection(item.id));
+});
